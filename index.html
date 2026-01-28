@@ -2,25 +2,74 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <!-- باعث می‌شود سایت روی موبایل درست اسکیل شود -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <title>ARASH ETESSAM</title>
+  <meta name="description" content="ARASH ETESSAM — Official website">
 
   <style>
+    /* =========================
+       RESET پایه
+       ========================= */
     html, body {
       margin: 0;
+      padding: 0;
       width: 100%;
       height: 100%;
       background: #000;
     }
 
+    /* =========================
+       حالت پیش‌فرض (دسکتاپ)
+       - پرکننده
+       - سینمایی
+       ========================= */
     body {
       background-image: url("hero.jpg");
       background-repeat: no-repeat;
-      background-position: center;
-      background-size: 85%;
+      background-position: center center;
+      background-size: cover; /* پر کردن صفحه */
+    }
+
+    /* =========================
+       تبلت
+       - کمی زوم کمتر
+       ========================= */
+    @media (max-width: 1024px) {
+      body {
+        background-size: 90%;
+      }
+    }
+
+    /* =========================
+       موبایل
+       - کل عکس دیده شود
+       - بدون کراپ شدید
+       ========================= */
+    @media (max-width: 768px) {
+      body {
+        background-size: contain;
+        background-position: center top;
+      }
+    }
+
+    /* =========================
+       موبایل خیلی کوچک
+       ========================= */
+    @media (max-width: 480px) {
+      body {
+        background-size: contain;
+        background-position: center;
+      }
     }
   </style>
 </head>
+
 <body>
+  <!--
+    عمداً هیچ محتوایی داخل body نیست
+    صفحه = فقط عکس
+  -->
 </body>
 </html>
