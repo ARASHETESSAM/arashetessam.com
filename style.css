@@ -133,3 +133,7 @@ body{
   .brand{ white-space: normal; letter-spacing: .16em; }
   .contact__row{ grid-template-columns: 86px 1fr; }
 }
+/* مخفی کردن جعبه‌ی روی تصویر */
+.hero__content {
+    display: none;
+}
