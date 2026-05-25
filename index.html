@@ -1,76 +1,111 @@
-الان متوجه شدم؛ شما یک فایل index.html ساده دارید که فقط عکس کاور شما (Copy.png) را به صورت تمام‌صفحه نمایش می‌دهد. در واقع در حال حاضر کل سایت شما فقط همین یک تصویر است.
-اگر می‌خواهید فرم ورود مینی‌مال و متحرک دقیقاً روی همین ساختار پیاده‌سازی شود، دو راه حل دارید:
-### راه حل اول: جایگزین کردن کامل فرم ورود با کد قبلی
-اگر می‌خواهید کلاً فرم ورود هوشمند جایگزین آن عکس ثابت شود، کافی است کل کدهای داخل فایل index.html فعلی‌تان را پاک کنید و کدهای HTML کاملی که در پاسخ قبلی به شما دادم را داخل آن بگذارید. در این حالت عکس ثابت حذف شده و یک صفحه ورود واقعی با فیلدهای متنی خواهید داشت.
-### راه حل دوم: ترکیب فرم ورود با عکس فعلی شما (ادغام هر دو)
-اگر دوست دارید همان عکس کاور شما (Copy.png) در پس‌زمینه بماند و فرم ورود هوشمند و متحرکِ بدون تلفن **روی** آن عکس قرار بگیرد، من کدهای شما را دقیقاً بر همین اساس اصلاح کرده‌ام.
-کافی است کدهای داخل index.html خود را بردارید و کد زیر را جایگزین آن کنید:
-```html
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>ARASH ETESSAM</title>
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="apple-touch-icon" href="/favicon.png" />
-    <link rel="stylesheet" href="./style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورود | ARASH ETESSAM</title>
     <style>
         :root {
+            --bg-color: #050505;
             --accent-color: #ffffff;
             --text-muted: #666666;
+            --glow-color: rgba(255, 255, 255, 0.05);
         }
 
-        body, html {
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #000;
         }
 
-        /* بخش کاور و تصویر اصلی شما به عنوان پس‌زمینه */
-        .frame {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-
-        .cover {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.6; /* کمی تصویر پس‌زمینه را تاریک‌تر می‌کنیم تا فرم ورود واضح‌تر شود */
-        }
-
-        /* لایه فرم ورود روی تصویر */
-        .login-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
+        body {
+            background-color: var(--bg-color);
+            color: var(--accent-color);
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* پس‌زمینه رمزآلود */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255,255,255,0.015) 0%, rgba(0,0,0,0) 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            pointer-events: none;
         }
 
         .login-container {
+            position: relative;
+            z-index: 2;
             width: 100%;
-            max-width: 380px;
-            padding: 30px;
+            max-width: 400px;
+            padding: 40px 30px;
             text-align: center;
-            border-radius: 4px;
         }
 
-        /* فرم ورود مینیمال بدون شماره تلفن */
+        /* بخش لوگو و اثر انگشت */
+        .brand-section {
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .fingerprint-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-3M12 15V9M8 21a6 6 0 0 1-2.4-4.8M16 21a6 6 0 0 0 2.4-4.8M5.1 11.2a9 9 0 0 1 2.3-5.2M18.9 11.2a9 9 0 0 0-2.3-5.2M9 3.5a12 12 0 0 1 6 0"/></svg>') no-repeat center;
+            background-size: contain;
+            opacity: 0.7;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            filter: drop-shadow(0 0 0px var(--accent-color));
+            animation: pulseGlow 3s infinite ease-in-out;
+        }
+
+        .fingerprint-icon:hover {
+            opacity: 1;
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.3));
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.85; filter: drop-shadow(0 0 4px rgba(255,255,255,0.1)); }
+        }
+
+        .logo-text {
+            font-size: 24px;
+            letter-spacing: 6px;
+            font-weight: 300;
+            text-transform: uppercase;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+        
+        /* شبیه‌سازی فونت تصویر شما لاندایی شکل */
+        .logo-text span {
+            font-family: monospace;
+            font-weight: 200;
+        }
+
+        .logo-subtext {
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* فرم ورود */
         .input-group {
             position: relative;
             margin-bottom: 25px;
@@ -82,7 +117,7 @@
             padding: 12px 10px;
             background: transparent;
             border: none;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
+            border-bottom: 1px solid #222;
             color: #fff;
             font-size: 14px;
             letter-spacing: 1px;
@@ -107,26 +142,30 @@
             transition: all 0.3s ease;
         }
 
+        /* افکت شناور شدن لیبل‌ها هنگام فوکوس */
         .input-group input:focus ~ label,
         .input-group input:valid ~ label {
-            top: -14px;
+            top: -12px;
             right: 0;
             font-size: 10px;
             color: var(--accent-color);
         }
 
+        /* دکمه ورود */
         .login-btn {
             width: 100%;
             padding: 14px;
             background: transparent;
-            border: 1px solid rgba(255,255,255,0.3);
+            border: 1px solid #333;
             color: #fff;
             text-transform: uppercase;
             letter-spacing: 3px;
             font-size: 12px;
             cursor: pointer;
             font-weight: 400;
-            margin-top: 10px;
+            margin-top: 15px;
+            position: relative;
+            overflow: hidden;
             transition: all 0.4s ease;
         }
 
@@ -134,6 +173,19 @@
             border-color: var(--accent-color);
             background: #fff;
             color: #000;
+            box-shadow: 0 0 15px rgba(255,255,255,0.1);
+        }
+
+        /* فوتر صفحه */
+        .footer-text {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            font-size: 9px;
+            color: #333;
+            letter-spacing: 2px;
+            text-align: center;
         }
 
         .utilities {
@@ -156,36 +208,38 @@
 </head>
 <body>
 
-    <main class="frame" aria-label="Arash Etessam cover">
-        <img class="cover" src="./Copy.png" alt="ARASH ETESSAM" />
-    </main>
-
-    <div class="login-overlay">
-        <div class="login-container">
-            <form action="#" method="POST" autocomplete="off">
-                <div class="input-group">
-                    <input type="email" required>
-                    <label>EMAIL / نام کاربری</label>
-                </div>
-                
-                <div class="input-group">
-                    <input type="password" required>
-                    <label>PASSWORD / رمز عبور</label>
-                </div>
-
-                <button type="submit" class="login-btn">ENTER / ورود</button>
-
-                <div class="utilities">
-                    <a href="#">رمز عبور را فراموش کرده‌اید؟</a>
-                    <a href="#">ΛΞ</a>
-                </div>
-            </form>
+    <div class="login-container">
+        
+        <div class="brand-section">
+            <div class="fingerprint-icon" title="اسکن بیومتریک"></div>
+            <div class="logo-text">ΛRΛSH ΞTΞSSΛM</div>
+            <div class="logo-subtext">Identity Verification</div>
         </div>
+
+        <form action="#" method="POST" autocomplete="off">
+            <div class="input-group">
+                <input type="email" required>
+                <label>EMAIL / نام کاربری</label>
+            </div>
+            
+            <div class="input-group">
+                <input type="password" required>
+                <label>PASSWORD / رمز عبور</label>
+            </div>
+
+            <button type="submit" class="login-btn">ENTER / ورود</button>
+
+            <div class="utilities">
+                <a href="#">رمز عبور را فراموش کرده‌اید؟</a>
+                <a href="#">ΛΞ</a>
+            </div>
+        </form>
+
+    </div>
+
+    <div class="footer-text">
+        © 2026 ARASH ETESSAM. ALL RIGHTS RESERVED.
     </div>
 
 </body>
 </html>
-
-```
-### مزیت این روش چیست؟
-تصویر زیبای شما (Copy.png) به عنوان بک‌گراند زنده و تمام‌صفحه باقی می‌ماند و فرم ورود شیک و مینی‌مال (ایمیل و پسورد) به زیبایی درست در مرکز آن روی تصویر شناور می‌شود. با این کار هویت بصری تصویر شما هم حفظ خواهد شد.
