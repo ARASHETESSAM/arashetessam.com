@@ -7,61 +7,38 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/favicon.png" />
     <style>
-        :root {
-            --bg-color: #0a0a0a;
-            --accent-color: #ffffff;
-            --text-muted: #666666;
-            --border-color: rgba(255, 255, 255, 0.05);
-        }
-
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--accent-color);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        body, html {
+            width: 100%;
+            height: 100%;
+            background-color: #000000; /* رنگ مشکی مطلق برای همپوشانی با عکس ویرایش شده */
             overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         .workspace-container {
             display: flex;
             width: 100vw;
             height: 100vh;
-            background-color: var(--bg-color);
+            background-color: #000000;
         }
 
-        /* سمت چپ: تصویر اصلی شما بدون کات شدن */
+        /* سمت چپ: تصویر ویرایش شده شما (بدون تلفن و ایمیل) */
         .image-side {
-            flex: 1;
-            background: #000 url('./Copy.png') no-repeat center left;
+            flex: 1.2;
+            background: #000000 url('./Copy-no-phone.png') no-repeat center left;
             background-size: contain;
-            position: relative;
         }
 
-        /* لایه فید ملایم برای ادغام لبه سمت راست تصویر با پس‌زمینه تیره */
-        .image-side::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 150px;
-            height: 100%;
-            background: linear-gradient(to left, rgba(10, 10, 10, 0) 0%, var(--bg-color) 100%);
-            pointer-events: none;
-        }
-
-        /* سمت راست: بخش اطلاعات و سوشال مدیا همرنگ صفحه */
+        /* سمت راست: چیدمان مینی‌مال و همرنگ با بدنه اصلی */
         .info-side {
             width: 450px;
-            background-color: var(--bg-color);
+            background-color: #000000;
             padding: 60px;
             display: flex;
             flex-direction: column;
@@ -80,12 +57,13 @@
 
         .brand-subtitle {
             font-size: 11px;
-            color: var(--text-muted);
+            color: #666666;
             letter-spacing: 3px;
             text-transform: uppercase;
             margin-bottom: 40px;
         }
 
+        /* چیدمان مینی‌مال سوشال مدیا */
         .links-wrapper {
             display: flex;
             flex-direction: column;
@@ -98,7 +76,7 @@
             justify-content: space-between;
             padding: 16px 20px;
             background: rgba(255, 255, 255, 0.01);
-            border: 1px solid var(--border-color);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             color: #fff;
             text-decoration: none;
             font-size: 13px;
@@ -120,7 +98,7 @@
             gap: 15px;
         }
 
-        /* استایل آیکون‌های SVG مینی‌مال */
+        /* آیکون‌های SVG مینی‌مال */
         .social-icon {
             width: 18px;
             height: 18px;
@@ -137,7 +115,7 @@
             text-transform: uppercase;
             font-size: 11px;
             letter-spacing: 2px;
-            color: var(--text-muted);
+            color: #666666;
         }
 
         .social-link:hover .icon-label {
@@ -160,12 +138,6 @@
             .image-side {
                 flex: 1;
                 background-position: center;
-            }
-            .image-side::after {
-                width: 100%;
-                height: 100px;
-                top: 0;
-                background: linear-gradient(to top, rgba(10, 10, 10, 0) 0%, var(--bg-color) 100%);
             }
             .info-side {
                 width: 100%;
