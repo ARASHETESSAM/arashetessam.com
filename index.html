@@ -8,11 +8,10 @@
     <link rel="apple-touch-icon" href="/favicon.png" />
     <style>
         :root {
-            --bg-color: #050505;
+            --bg-color: #0a0a0a;
             --accent-color: #ffffff;
             --text-muted: #666666;
-            --card-bg: rgba(255, 255, 255, 0.02);
-            --border-color: rgba(255, 255, 255, 0.08);
+            --border-color: rgba(255, 255, 255, 0.05);
         }
 
         * {
@@ -29,48 +28,49 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow-x: hidden;
+            overflow: hidden;
+        }
+
+        .workspace-container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg-color);
+        }
+
+        /* سمت چپ: تصویر اصلی شما بدون کات شدن */
+        .image-side {
+            flex: 1;
+            background: #000 url('./Copy.png') no-repeat center left;
+            background-size: contain;
             position: relative;
         }
 
-        /* Ambient background glow */
-        body::before {
+        /* لایه فید ملایم برای ادغام لبه سمت راست تصویر با پس‌زمینه تیره */
+        .image-side::after {
             content: '';
             position: absolute;
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, rgba(255,255,255,0.015) 0%, rgba(0,0,0,0) 70%);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 100%;
+            background: linear-gradient(to left, rgba(10, 10, 10, 0) 0%, var(--bg-color) 100%);
             pointer-events: none;
         }
 
-        .profile-container {
-            display: flex;
-            width: 90%;
-            max-width: 850px;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            z-index: 10;
-        }
-
-        /* Left side: Information and Links */
+        /* سمت راست: بخش اطلاعات و سوشال مدیا همرنگ صفحه */
         .info-side {
-            flex: 1.2;
-            padding: 50px 40px;
+            width: 450px;
+            background-color: var(--bg-color);
+            padding: 60px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            text-align: left;
+            z-index: 10;
         }
 
         .brand-title {
-            font-size: 28px;
+            font-size: 26px;
             letter-spacing: 5px;
             font-weight: 300;
             color: #fff;
@@ -86,25 +86,25 @@
             margin-bottom: 40px;
         }
 
-        /* Links styling */
         .links-wrapper {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 14px;
         }
 
         .social-link {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
             padding: 16px 20px;
-            background: transparent;
+            background: rgba(255, 255, 255, 0.01);
             border: 1px solid var(--border-color);
             color: #fff;
             text-decoration: none;
             font-size: 13px;
             letter-spacing: 1px;
-            transition: all 0.4s ease;
+            border-radius: 4px;
+            transition: all 0.3s ease;
         }
 
         .social-link:hover {
@@ -112,80 +112,108 @@
             color: #000;
             border-color: #fff;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255,255,255,0.08);
         }
 
-        .social-link .icon-label {
+        .link-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* استایل آیکون‌های SVG مینی‌مال */
+        .social-icon {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .social-link:hover .social-icon {
+            opacity: 1;
+        }
+
+        .icon-label {
             text-transform: uppercase;
             font-size: 11px;
             letter-spacing: 2px;
             color: var(--text-muted);
-            transition: color 0.4s ease;
         }
 
         .social-link:hover .icon-label {
-            color: #333;
-        }
-
-        /* Right side: Your Image */
-        .image-side {
-            flex: 1;
-            min-height: 480px;
-            background: url('./Copy.png') no-repeat center;
-            background-size: cover;
-            position: relative;
-        }
-
-        .image-side::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to left, var(--bg-color) 0%, rgba(0,0,0,0) 20%);
+            color: #444;
         }
 
         .footer-text {
             margin-top: 40px;
             font-size: 9px;
-            color: #444;
+            color: #333;
             letter-spacing: 2px;
             text-transform: uppercase;
         }
 
-        /* Responsive Mobile Layout */
-        @media (max-width: 768px) {
-            .profile-container {
+        /* بهینه‌سازی کامل برای موبایل */
+        @media (max-width: 900px) {
+            .workspace-container {
                 flex-direction: column-reverse;
-                max-width: 400px;
-                margin: 20px;
             }
             .image-side {
-                min-height: 250px;
+                flex: 1;
+                background-position: center;
             }
             .image-side::after {
-                background: linear-gradient(to bottom, var(--bg-color) 0%, rgba(0,0,0,0) 30%);
+                width: 100%;
+                height: 100px;
+                top: 0;
+                background: linear-gradient(to top, rgba(10, 10, 10, 0) 0%, var(--bg-color) 100%);
             }
             .info-side {
-                padding: 35px 25px;
+                width: 100%;
+                padding: 40px 30px;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="profile-container">
+    <div class="workspace-container">
         
+        <div class="image-side"></div>
+
         <div class="info-side">
             <h1 class="brand-title">ΛRΛSH ΞTΞSSΛM</h1>
             <p class="brand-subtitle">Personal Workspace</p>
 
             <div class="links-wrapper">
                 <a href="https://www.instagram.com/arashetessam" target="_blank" rel="noopener noreferrer" class="social-link">
-                    <span class="icon-label">Instagram</span>
-                    <span>@ARASHETESSAM</span>
+                    <div class="link-left">
+                        <svg class="social-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+                        <span class="icon-label">Instagram</span>
+                    </div>
+                    <span>@arashetessam</span>
+                </a>
+
+                <a href="https://www.facebook.com/arashetessam" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <div class="link-left">
+                        <svg class="social-icon" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg>
+                        <span class="icon-label">Facebook</span>
+                    </div>
+                    <span>/arashetessam</span>
+                </a>
+
+                <a href="https://t.me/arashetessam" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <div class="link-left">
+                        <svg class="social-icon" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.565 8.161c-.156 1.425-.837 5.43-1.18 7.266-.146.776-.431 1.036-.708 1.062-.609.056-1.071-.3-.1.662-1.658-1.084-2.22-1.631-3.585-2.529-1.576-1.037-.554-1.607.344-2.542.235-.245 4.316-3.957 4.395-4.293.01-.042.019-.197-.074-.28-.093-.083-.231-.055-.33-.032-.14.032-2.383 1.512-6.726 4.442-.636.437-1.213.651-1.729.64-.57-.012-1.667-.322-2.482-.587-.999-.326-1.791-.498-1.722-.1.05.207.412.421 1.083.64 4.116 1.795 6.861 2.981 8.232 3.56 3.918 1.651 4.731 1.938 5.26 1.947.117.002.377-.027.547-.166.143-.117.183-.275.193-.388.01-.11.025-.526.015-.929z"/></svg>
+                        <span class="icon-label">Telegram</span>
+                    </div>
+                    <span>t.me/arashetessam</span>
                 </a>
 
                 <a href="mailto:info@arashetessam.com" class="social-link">
-                    <span class="icon-label">Email</span>
+                    <div class="link-left">
+                        <svg class="social-icon" viewBox="0 0 24 24"><path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z"/></svg>
+                        <span class="icon-label">Email</span>
+                    </div>
                     <span>info@arashetessam.com</span>
                 </a>
             </div>
@@ -194,8 +222,6 @@
                 © 2026 ARASH ETESSAM. ALL RIGHTS RESERVED.
             </div>
         </div>
-
-        <div class="image-side"></div>
 
     </div>
 
